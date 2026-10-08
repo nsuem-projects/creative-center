@@ -14,6 +14,9 @@ class Handler(SimpleHTTPRequestHandler):
   super().end_headers()
  def do_GET(self):
   path=urlsplit(self.path).path
+  if path=='/js/runtime-mode.js':
+   body=b"window.CREATIVE_CENTER_RUNTIME = 'server';"
+   self.send_response(200);self.send_header('Content-Type','application/javascript');self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body);return
   if not path.startswith('/api/'):return super().do_GET()
   if path=='/api/schedule':
    time.sleep(3)

@@ -1,6 +1,6 @@
 const page=location.pathname.split('/').pop()||'index.html';
 const params=new URLSearchParams(location.search);
-const read=path=>fetch(path,{cache:'no-store'}).then(r=>{if(!r.ok)throw Error(r.status);return r.json()});
+const read=path=>CreativeCenterTraining.read(path);
 function background(path){return read(path).catch(()=>null)}
 const menu=document.querySelector('.menu-toggle');menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',open);document.querySelector('nav').classList.toggle('open',open)});
 document.querySelectorAll('form').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault();form.querySelector('.form-result').textContent=form.dataset.kind==='certificate'?'Пример заказа готов. Без оплаты и выпуска сертификата.':'Готово. Данные не отправлены, запись не оформлена.'}));
@@ -15,10 +15,11 @@ if(page==='schedule.html'){
  read('/api/schedule').then(rows=>{document.querySelectorAll('.places').forEach((el,i)=>{el.textContent=rows[i].places+' свободных '+(rows[i].places<5?'места':'мест')});document.querySelector('#schedule-status').textContent='Октябрь · места обновлены'}).catch(()=>{document.querySelector('#schedule-status').textContent='Места уточняйте в мастерской.'});
  for(let i=1;i<=6;i++)background('/api/workshops/'+i);
 }
-if(page==='contacts.html'){const image=new Image();image.src='/assets/images/entrance-evening.webp';image.onerror=()=>{};const link=document.createElement('link');link.rel='stylesheet';link.href='/css/map-theme.css';document.head.append(link)}
-if(page==='blog.html'){const script=document.createElement('script');script.src='/js/journal-recommendations.js';document.head.append(script)}
+if(page==='contacts.html'){const image=new Image();image.src='assets/images/entrance-evening.webp';image.onerror=()=>{};const link=document.createElement('link');link.rel='stylesheet';link.href='css/map-theme.css';document.head.append(link)}
+if(page==='blog.html'){const script=document.createElement('script');script.src='js/journal-recommendations.js';document.head.append(script)}
 if(page==='workshop.html'){
  const d=WORKSHOPS.find(x=>x.id===Number(params.get('id')))||WORKSHOPS[0];
+ background('/api/workshops/'+d.id);
  const dateSelect=document.querySelector('#booking select');dateSelect.replaceChildren();for(let week=0;week<3;week++){const option=document.createElement('option');option.textContent=(10+Math.floor((d.id-1)/3)+week*7)+' октября · '+(11+(d.id-1)%3*3)+':00';dateSelect.append(option)};document.title=d.title+' — Центр творческих мастерских';document.querySelector('#workshop-title').textContent=d.title;document.querySelector('#workshop-image').src='assets/images/'+d.image+'.svg';document.querySelector('#workshop-image').alt=d.title;document.querySelector('.secondary-image').src='assets/images/'+d.image+'.svg';document.querySelector('#workshop-price').textContent=d.price;document.querySelector('#workshop-duration').textContent=d.duration+' · '+d.level;const teacher= d.image==='pottery'?1:d.image==='painting'?2:3;document.querySelector('#workshop-teacher').textContent=d.teacher+' →';document.querySelector('#workshop-teacher').href='teacher.html?id='+teacher;
  const descriptions={pottery:'Освоим ручную лепку, выберем фактуру и подготовим изделие к обжигу.',painting:'Создадим эскиз, подберём цвета и перенесём идею на бумагу или холст.',wood:'Освоим инструменты, соберём изделие, отшлифуем и нанесём защитное покрытие.'};document.querySelector('#workshop-description').textContent=descriptions[d.image];if(d.image!=='pottery')document.querySelector('#workshop-takeaway').textContent='Работу можно забрать в день занятия.';
 }
