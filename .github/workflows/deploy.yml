@@ -1,0 +1,20 @@
+name: Deploy Stand to Timeweb
+
+on:
+  push:
+    branches:
+      - main
+      - 'student-*'
+
+jobs:
+  deploy:
+    name: Notify Timeweb Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Deploy Trigger
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          echo "Triggering deploy for branch: $BRANCH in ${{ github.repository }}"
+          curl -f -s -X POST "https://129-101-112-157.sslip.io/deploy-webhook" \
+            -H "Content-Type: application/json" \
+            -d "{\"branch\": \"$BRANCH\", \"repository\": \"${{ github.repository }}\"}" || echo "Server notified (or sync will pick up via git-sync timer)"
