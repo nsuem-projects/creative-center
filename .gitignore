@@ -1,0 +1,58 @@
+# Secrets, credentials and environment variables
+.env
+.env.*
+*.pem
+*.key
+*.cert
+*.crt
+*.htpasswd*
+id_rsa
+id_ecdsa
+id_ed25519
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Backups and archives
+*.tar.gz
+*.tar
+*.zip
+*.bak
+*.old
+*.backup
+*.tmp
+
+# System and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log

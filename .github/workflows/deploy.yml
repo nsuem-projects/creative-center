@@ -17,5 +17,5 @@ jobs:
           echo "Triggering deploy for branch: $BRANCH in ${{ github.repository }}"
           curl -f -s -X POST "https://129-101-112-157.sslip.io/deploy-webhook" \
             -H "Content-Type: application/json" \
-            -H "X-Deploy-Token: ${{ secrets.DEPLOY_TOKEN || 'cc-deploy-secret-2026' }}" \
+            -H "X-Deploy-Token: ${{ secrets.DEPLOY_TOKEN }}" \
             -d "{\"branch\": \"$BRANCH\", \"repository\": \"${{ github.repository }}\"}" || echo "Server notified (or sync will pick up via git-sync timer)"
