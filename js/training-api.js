@@ -43,7 +43,7 @@
           console.info('[Учебный режим: вызов в памяти, не HTTP]', path);
         } else {
           // Путь к вашему единому новому файлу 1.json
-          const url = 'assets/data/mock/1.json';
+          const url = 'assets/data/mock/workshops/1.json';
           entry.resource = url;
           
           try { 
