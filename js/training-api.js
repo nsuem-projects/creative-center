@@ -14,11 +14,7 @@
     }
     throw new Error('Нет учебных данных: ' + path);
   }
-  async function http(path) {
-    const response = await fetch(path, {cache:'no-store'});
-    if (!response.ok) throw new Error('HTTP ' + response.status + ': ' + path);
-    return response.json();
-  }
+  
   async function read(path) {
     if (!path.startsWith('/api/')) return http(path.replace(/^\//, ''));
     const entry = {path, mode, transport:fileMode?'memory':mode==='server'?'http-api':'http-static-json', started:Date.now(), jsDelayMs:0};
