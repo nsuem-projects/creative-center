@@ -15,7 +15,6 @@
     throw new Error('Нет учебных данных: ' + path);
   }
   async function http(path) {
-    const response = await fetch(path, {cache:'no-store'});
     if (!response.ok) throw new Error('HTTP ' + response.status + ': ' + path);
     return response.json();
   }
